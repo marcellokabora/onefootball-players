@@ -1,0 +1,46 @@
+<div class="container-app">
+    <div class="container-main">
+        <div class="container-form">
+            <form>
+                <mat-form-field appearance="outline">
+                    <mat-label>Player</mat-label>
+                    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="selectPlayer($event.option.value)">
+                        <mat-option class="option-player" *ngFor=" let option of filteredOptions | async" [value]="option">
+                            {{option}}
+                        </mat-option>
+                        <mat-option *ngIf="(filteredOptions | async)?.length===0" disabled>
+                            No players funded
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-icon matSuffix *ngIf="!(profile$|async)">search</mat-icon>
+                    <button matSuffix mat-icon-button *ngIf="profile$|async" (click)="removePlayer()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </form>
+            <mat-card *ngIf="profile$ | async as player">
+                <mat-card-header>
+                    <div mat-card-avatar>
+                        <mat-icon>face</mat-icon>
+                    </div>
+                    <mat-card-title>{{player.id | titlecase}}</mat-card-title>
+                    <mat-card-subtitle>
+                        <div class="info"><b>Age:</b> {{player.profile.age}}</div>
+                        <div class="info"><b>Role:</b> {{player.profile.role}}</div>
+                        <div class="info"><b>Team:</b> {{player.profile.team}}</div>
+                        <div class="info"><b>Active:</b> {{player.player.active}}</div>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image [src]="player.profile.picture">
+                <mat-card-content>
+                    <div class="grid">
+                        <div class="item" *ngFor="let item of player.stats | properties">
+                            <app-playerstat icon="info" [title]="item" [stat]="player.stats[item]"></app-playerstat>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

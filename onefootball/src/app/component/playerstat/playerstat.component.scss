@@ -1,0 +1,13 @@
+.playerstat {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    min-width: 100px;
+    .title{
+        margin-bottom: 10px;
+    }
+    .value{
+        font-weight: bold;
+        font-size: 22px;
+    }
+}
